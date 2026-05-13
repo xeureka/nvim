@@ -2,6 +2,10 @@
 -- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
 -- Add any additional options here
 
+-- Fix: Disable WakaTime Statusline globally before plugins load
+vim.g.wakatime_StatusLineEnabled = 0
+vim.g.wakatime_StatusLine = ""
+
 -- Undercurl
 
 -- for alacritty

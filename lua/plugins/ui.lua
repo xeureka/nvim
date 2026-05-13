@@ -1,3 +1,7 @@
+-- Fix: Use proper Lua syntax for global variables at the top
+vim.g.wakatime_StatusLineEnabled = 0
+vim.g.wakatime_StatusLine = ""
+
 return {
   -- 1. Notifications (Noice)
   {
@@ -30,7 +34,7 @@ return {
         background = { bg = "#000000", fg = "#6e7681" },
         tab_selected = {
           bg = "#000000",
-          fg = "#2f81f7", -- Power Blue
+          fg = "#2f81f7",
           bold = true,
         },
         separator = { fg = "#30363d", bg = "#000000" },
@@ -48,7 +52,7 @@ return {
         blue = "#2f81f7",
         green = "#3fb950",
         orange = "#d76e00",
-        black = "#000000", -- Matches your OLED background
+        black = "#000000",
         grey = "#30363d",
       }
 
@@ -81,20 +85,55 @@ return {
           component_separators = { left = "⏐", right = "⏐" },
           section_separators = { left = "", right = "" },
           globalstatus = true,
-          disabled_filetypes = { statusline = { "dashboard", "alpha", "snacks_dashboard" } },
+          disabled_filetypes = {
+            statusline = { "dashboard", "alpha", "snacks_dashboard" },
+          },
+          refresh = {
+            statusline = 1000,
+          },
+          extensions = {},
         },
+
         sections = {
-          lualine_a = { { "mode", text_weight = "bold" } },
-          lualine_b = { "branch" },
+          lualine_a = {
+            { "mode", text_weight = "bold" },
+          },
+          lualine_b = {
+            "branch",
+          },
           lualine_c = {
-            { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
-            { "filename", path = 1, symbols = { modified = " ", readonly = " " } },
+            {
+              "filetype",
+              icon_only = true,
+              separator = "",
+              padding = { left = 1, right = 0 },
+            },
+            {
+              "filename",
+              path = 1,
+              symbols = {
+                modified = " ",
+                readonly = " ",
+              },
+            },
           },
           lualine_x = {
-            { "diagnostics", symbols = { error = " ", warn = " ", info = " ", hint = "󰛩 " } },
+            {
+              "diagnostics",
+              symbols = {
+                error = " ",
+                warn = " ",
+                info = " ",
+                hint = "󰛩 ",
+              },
+            },
           },
-          lualine_y = { "progress" },
-          lualine_z = { "location" },
+          lualine_y = {
+            "progress", -- Only shows the percentage (66% in image_388301.png)
+          },
+          lualine_z = {
+            "location", -- Only shows line:column (16:1 in image_388301.png)
+          },
         },
       }
     end,
@@ -157,17 +196,40 @@ return {
         },
         render = function(props)
           local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
+
           if filename == "" then
             filename = "[No Name]"
           end
+
           local res = {}
+
           if vim.bo[props.buf].modified then
-            table.insert(res, { "  ", guifg = "#2f81f7", guibg = "#0d1117" })
+            table.insert(res, {
+              "  ",
+              guifg = "#2f81f7",
+              guibg = "#0d1117",
+            })
           end
+
           local icon, icon_color = require("nvim-web-devicons").get_icon_color(filename)
-          table.insert(res, { " ", icon, " ", guifg = icon_color, guibg = "#161b22" })
-          table.insert(res, { " " .. filename .. " ", guifg = "#2f81f7", gui = "bold", guibg = "#0d1117" })
+
+          table.insert(res, {
+            " ",
+            icon,
+            " ",
+            guifg = icon_color,
+            guibg = "#161b22",
+          })
+
+          table.insert(res, {
+            " " .. filename .. " ",
+            guifg = "#2f81f7",
+            gui = "bold",
+            guibg = "#0d1117",
+          })
+
           res.guibg = "#30363d"
+
           return res
         end,
       })
