@@ -48,3 +48,13 @@ vim.opt.listchars = {
   lead = "·",
   trail = "·",
 }
+
+-- Preview substitutions live, as you type! (Kickstart default)
+vim.opt.inccommand = "split"
+
+-- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+
+-- Don't show the mode (like -- INSERT --) at the bottom, since LazyVim's statusline handles it
+vim.opt.showmode = false
