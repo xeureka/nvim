@@ -13,9 +13,12 @@ vim.g.wakatime_StatusLine = ""
 -- for wezterm
 vim.cmd([[let &t_Cs = "\e[60m"]])
 vim.cmd([[let &t_Ce = "\e[24m"]])
-vim.opt.termguicolors = true
 
+vim.opt.termguicolors = true
 vim.g.lazyvim_picker = "telescope"
+
+-- Autoformat on save (LazyVim's own format-on-save switch)
+vim.g.autoformat = true
 
 -- Indentation
 vim.opt.tabstop = 4
